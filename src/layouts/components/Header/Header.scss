@@ -1,0 +1,10 @@
+@use "/src/styles/variables";
+@use "/src/styles/utils";
+
+.main-header {
+  background-color: variables.$color-primary;
+  color: #fff;
+  min-height: 80px;
+  @include utils.box();
+  @include utils.flexRow(space-between, center);
+}

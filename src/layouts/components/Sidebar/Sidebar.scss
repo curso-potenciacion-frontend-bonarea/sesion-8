@@ -1,0 +1,7 @@
+@use "/src/styles/variables";
+@use "/src/styles/utils";
+
+.main-sidebar {
+  border-right: 1px solid variables.$color-primary;
+  @include utils.box();
+}

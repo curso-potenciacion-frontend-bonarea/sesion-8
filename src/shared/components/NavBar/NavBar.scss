@@ -1,0 +1,6 @@
+@use "/src/styles/utils";
+
+.navbar > * {
+  @include utils.flexColumn;
+  gap: 10px;
+}

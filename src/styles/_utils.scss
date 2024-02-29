@@ -1,0 +1,23 @@
+@use "./variables";
+
+@mixin box(
+  $padding-vertical: variables.$padding-vertical,
+  $padding-horizontal: variables.$padding-horizontal
+) {
+  padding: $padding-vertical $padding-horizontal;
+}
+
+@mixin flex($direction: row, $justify: flex-start, $align: flex-start) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+@mixin flexRow($justify: flex-start, $align: flex-start) {
+  @include flex(row, $justify, $align);
+}
+
+@mixin flexColumn($justify: flex-start, $align: flex-start) {
+  @include flex(column, $justify, $align);
+}

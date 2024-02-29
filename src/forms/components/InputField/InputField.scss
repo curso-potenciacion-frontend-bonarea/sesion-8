@@ -1,0 +1,9 @@
+@use "/src/styles/variables";
+
+.form {
+  &__control {
+    border: 1px solid variables.$color-primary;
+    border-radius: 5px;
+    padding: 5px;
+  }
+}

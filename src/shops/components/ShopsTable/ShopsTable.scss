@@ -1,0 +1,17 @@
+.shops-data {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+
+  th,
+  td {
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+
+  &__column {
+    &--fixed {
+      width: 200px;
+    }
+  }
+}

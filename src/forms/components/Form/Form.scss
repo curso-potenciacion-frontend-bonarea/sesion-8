@@ -1,0 +1,13 @@
+@use "/src/styles/utils";
+
+.form {
+  &--inline {
+    @include utils.flexRow(flex-start, center);
+    gap: 10px;
+  }
+
+  &--vertical {
+    @include utils.flexColumn();
+    gap: 20px;
+  }
+}

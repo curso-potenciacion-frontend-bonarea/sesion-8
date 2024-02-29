@@ -1,0 +1,6 @@
+@use "/src/styles/utils";
+
+.form-page {
+  @include utils.flexColumn;
+  gap: 20px;
+}
