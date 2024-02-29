@@ -6,10 +6,13 @@ import {
   featureShop,
   incrementEmployees,
 } from "@/shops/slice/shopsSlice";
+import { useContext } from "react";
+import { ShopsListContext } from "@/shops/context/ShopsListContext";
 
 const ShopsTable = (): React.ReactElement => {
   const shops = useAppSelector((state) => state.shops.list);
   const dispatch = useAppDispatch();
+  const { filterSize } = useContext(ShopsListContext);
 
   const onFeatureShop = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -36,50 +39,53 @@ const ShopsTable = (): React.ReactElement => {
   };
 
   return (
-    <table className="shops-data">
-      <thead>
-        <tr>
-          <th className="shops-data__column--fixed">Image</th>
-          <th>Name</th>
-          <th>City</th>
-          <th># employees</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {shops.map(({ id, name, city, employees, picture }) => (
-          <tr key={id}>
-            <td className="shops-data__column--fixed">
-              <img src={`/pictures/${picture.thumbnail}`} alt={name} />
-            </td>
-            <td>{name}</td>
-            <td>{city}</td>
-            <td>
-              {employees}{" "}
-              <Button
-                variant="outline"
-                onClick={onDecrementEmployees}
-                data-id={id}
-              >
-                -
-              </Button>{" "}
-              <Button
-                variant="outline"
-                onClick={onIncrementEmployees}
-                data-id={id}
-              >
-                +
-              </Button>
-            </td>
-            <td>
-              <Button variant="outline" onClick={onFeatureShop} data-id={id}>
-                feature
-              </Button>
-            </td>
+    <>
+      <p>Filtered: {filterSize}</p>
+      <table className="shops-data">
+        <thead>
+          <tr>
+            <th className="shops-data__column--fixed">Image</th>
+            <th>Name</th>
+            <th>City</th>
+            <th># employees</th>
+            <th></th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {shops.map(({ id, name, city, employees, picture }) => (
+            <tr key={id}>
+              <td className="shops-data__column--fixed">
+                <img src={`/pictures/${picture.thumbnail}`} alt={name} />
+              </td>
+              <td>{name}</td>
+              <td>{city}</td>
+              <td>
+                {employees}{" "}
+                <Button
+                  variant="outline"
+                  onClick={onDecrementEmployees}
+                  data-id={id}
+                >
+                  -
+                </Button>{" "}
+                <Button
+                  variant="outline"
+                  onClick={onIncrementEmployees}
+                  data-id={id}
+                >
+                  +
+                </Button>
+              </td>
+              <td>
+                <Button variant="outline" onClick={onFeatureShop} data-id={id}>
+                  feature
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
   );
 };
 

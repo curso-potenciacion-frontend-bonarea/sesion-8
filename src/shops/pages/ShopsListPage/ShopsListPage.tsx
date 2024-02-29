@@ -1,6 +1,9 @@
 import Heading from "@/shared/components/Heading";
 import FeaturedShops from "@/shops/components/FeaturedShops";
+import ShopsFilters from "@/shops/components/ShopsFilters";
+import ShopsPagination from "@/shops/components/ShopsPagination";
 import ShopsTable from "@/shops/components/ShopsTable";
+import ShopsListProvider from "@/shops/context/ShopsListProvider";
 import { loadShops } from "@/shops/slice/shopsSlice";
 import { Shop } from "@/shops/types";
 import { useAppDispatch } from "@/store/hooks";
@@ -10,7 +13,7 @@ const ShopsListPage = (): React.ReactElement => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    fetch("http://localhost:4000/shops")
+    fetch(`${import.meta.env.VITE_API_URL}/shops`)
       .then((response) => response.json() as Promise<{ shops: Shop[] }>)
       .then(({ shops }) => {
         dispatch(loadShops(shops));
@@ -21,7 +24,11 @@ const ShopsListPage = (): React.ReactElement => {
     <>
       <Heading level={2}>Shops list</Heading>
       <FeaturedShops />
-      <ShopsTable />
+      <ShopsListProvider>
+        <ShopsFilters />
+        <ShopsPagination />
+        <ShopsTable />
+      </ShopsListProvider>
     </>
   );
 };
