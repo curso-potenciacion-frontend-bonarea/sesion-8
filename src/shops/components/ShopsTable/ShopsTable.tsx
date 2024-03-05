@@ -2,28 +2,42 @@ import "./ShopsTable.scss";
 import Button from "@/shared/components/Button";
 import { useContext } from "react";
 import { ShopsListContext } from "@/shops/context/ShopsListContext";
-import { Shop } from "@/shops/types";
+import { useAppStore } from "@/store";
 
 const ShopsTable = (): React.ReactElement => {
-  const shops: Shop[] = [];
+  const shops = useAppStore((state) => state.shops.list);
+  const featureShop = useAppStore((state) => state.shops.featureShop);
+  const incrementEmployees = useAppStore(
+    (state) => state.shops.incrementEmployees
+  );
+  const decrementEmployees = useAppStore(
+    (state) => state.shops.decrementEmployees
+  );
+
   const { filterSize } = useContext(ShopsListContext);
 
   const onFeatureShop = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     const id = event.currentTarget.dataset.id!;
+
+    featureShop(+id);
   };
 
   const onIncrementEmployees = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     const id = event.currentTarget.dataset.id!;
+
+    incrementEmployees(+id);
   };
 
   const onDecrementEmployees = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     const id = event.currentTarget.dataset.id!;
+
+    decrementEmployees(+id);
   };
 
   return (

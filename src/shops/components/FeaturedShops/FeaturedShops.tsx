@@ -1,8 +1,8 @@
+import { useAppStore } from "@/store";
 import "./FeaturedShops.scss";
-import { Shop } from "@/shops/types";
 
 const FeaturedShops = (): React.ReactElement => {
-  const shops: Shop[] = [];
+  const shops = useAppStore((state) => state.shops.featured);
 
   return (
     <ul className="featured-shops">

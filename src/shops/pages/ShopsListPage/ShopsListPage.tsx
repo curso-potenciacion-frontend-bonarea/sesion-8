@@ -5,14 +5,19 @@ import ShopsPagination from "@/shops/components/ShopsPagination";
 import ShopsTable from "@/shops/components/ShopsTable";
 import ShopsListProvider from "@/shops/context/ShopsListProvider";
 import { Shop } from "@/shops/types";
+import { useAppStore } from "@/store";
 import { useEffect } from "react";
 
 const ShopsListPage = (): React.ReactElement => {
+  const loadShops = useAppStore((state) => state.shops.loadShops);
+
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/shops`)
       .then((response) => response.json() as Promise<{ shops: Shop[] }>)
-      .then(({ shops }) => {});
-  }, []);
+      .then(({ shops }) => {
+        loadShops(shops);
+      });
+  }, [loadShops]);
 
   return (
     <>
