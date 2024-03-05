@@ -4,13 +4,9 @@ import App from "./App.tsx";
 import "@fontsource-variable/montserrat";
 import "@fontsource-variable/nunito";
 import "./styles/index.scss";
-import { Provider } from "react-redux";
-import { store } from "./store/index.ts";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <App />
   </React.StrictMode>
 );

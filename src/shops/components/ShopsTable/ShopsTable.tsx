@@ -1,41 +1,29 @@
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import "./ShopsTable.scss";
 import Button from "@/shared/components/Button";
-import {
-  decrementEmployees,
-  featureShop,
-  incrementEmployees,
-} from "@/shops/slice/shopsSlice";
 import { useContext } from "react";
 import { ShopsListContext } from "@/shops/context/ShopsListContext";
+import { Shop } from "@/shops/types";
 
 const ShopsTable = (): React.ReactElement => {
-  const shops = useAppSelector((state) => state.shops.list);
-  const dispatch = useAppDispatch();
+  const shops: Shop[] = [];
   const { filterSize } = useContext(ShopsListContext);
 
   const onFeatureShop = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     const id = event.currentTarget.dataset.id!;
-
-    dispatch(featureShop(Number(id)));
   };
 
   const onIncrementEmployees = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     const id = event.currentTarget.dataset.id!;
-
-    dispatch(incrementEmployees(Number(id)));
   };
 
   const onDecrementEmployees = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     const id = event.currentTarget.dataset.id!;
-
-    dispatch(decrementEmployees(Number(id)));
   };
 
   return (

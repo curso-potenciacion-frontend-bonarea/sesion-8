@@ -8,8 +8,3 @@ export type Shop = {
     large: string;
   };
 };
-
-export type ShopsState = {
-  list: Shop[];
-  featured: Shop[];
-};

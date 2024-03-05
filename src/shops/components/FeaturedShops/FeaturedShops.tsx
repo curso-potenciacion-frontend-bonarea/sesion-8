@@ -1,8 +1,8 @@
-import { useAppSelector } from "@/store/hooks";
 import "./FeaturedShops.scss";
+import { Shop } from "@/shops/types";
 
 const FeaturedShops = (): React.ReactElement => {
-  const shops = useAppSelector((state) => state.shops.featured);
+  const shops: Shop[] = [];
 
   return (
     <ul className="featured-shops">
