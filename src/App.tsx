@@ -7,6 +7,7 @@ import { authFullPaths, authPaths } from "./auth/routing/paths";
 import NotFoundPage from "./pages/NotFoundPage";
 import { shopsPaths } from "./shops/routing/paths";
 import { trucksPaths } from "./trucks/routing/paths";
+import ShopsListProvider from "./shops/context/ShopsListProvider";
 
 const LoginPage = React.lazy(() => import("./auth/pages/LoginPage"));
 const RegisterPage = React.lazy(() => import("./auth/pages/RegisterPage"));
@@ -25,7 +26,14 @@ const App = (): React.ReactElement => {
             <Route path="menu" element={<MainMenuPage />} />
           </Route>
           <Route path={shopsPaths.root} element={<MainLayout />}>
-            <Route path={shopsPaths.list} element={<ShopsListPage />} />
+            <Route
+              path={shopsPaths.list}
+              element={
+                <ShopsListProvider>
+                  <ShopsListPage />
+                </ShopsListProvider>
+              }
+            />
           </Route>
           <Route path={trucksPaths.root} element={<MainLayout />}>
             <Route path={trucksPaths.list} element={<TrucksListPage />} />

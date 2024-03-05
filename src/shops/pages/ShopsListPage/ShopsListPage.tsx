@@ -3,31 +3,29 @@ import FeaturedShops from "@/shops/components/FeaturedShops";
 import ShopsFilters from "@/shops/components/ShopsFilters";
 import ShopsPagination from "@/shops/components/ShopsPagination";
 import ShopsTable from "@/shops/components/ShopsTable";
-import ShopsListProvider from "@/shops/context/ShopsListProvider";
-import { Shop } from "@/shops/types";
+import { ShopsListContext } from "@/shops/context/ShopsListContext";
+import { useShopsQuery } from "@/shops/queries/useShopsQuery";
 import { useAppStore } from "@/store";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 
 const ShopsListPage = (): React.ReactElement => {
   const loadShops = useAppStore((state) => state.shops.loadShops);
+  const { page } = useContext(ShopsListContext);
+  const { data, isSuccess } = useShopsQuery(page);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/shops`)
-      .then((response) => response.json() as Promise<{ shops: Shop[] }>)
-      .then(({ shops }) => {
-        loadShops(shops);
-      });
-  }, [loadShops]);
+    if (isSuccess) {
+      loadShops(data.shops);
+    }
+  }, [data?.shops, loadShops, isSuccess]);
 
   return (
     <>
       <Heading level={2}>Shops list</Heading>
       <FeaturedShops />
-      <ShopsListProvider>
-        <ShopsFilters />
-        <ShopsPagination />
-        <ShopsTable />
-      </ShopsListProvider>
+      <ShopsFilters />
+      <ShopsPagination />
+      <ShopsTable />
     </>
   );
 };
