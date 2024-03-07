@@ -55,6 +55,11 @@ const shopsSlice = createSlice({
 
       shopToDecrement.employees--;
     },
+    deleteShop: (shopsState, action: PayloadAction<Shop["id"]>) => {
+      shopsState.list = shopsState.list.filter(
+        (shop) => shop.id !== action.payload
+      );
+    },
   },
 });
 
@@ -63,5 +68,6 @@ export const {
   toggleFeaturedShop,
   incrementShopEmployees,
   decrementShopEmployees,
+  deleteShop,
 } = shopsSlice.actions;
 export const shopsReducer = shopsSlice.reducer;

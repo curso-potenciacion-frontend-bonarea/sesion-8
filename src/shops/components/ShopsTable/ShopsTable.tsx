@@ -8,9 +8,11 @@ import {
   incrementShopEmployees,
   toggleFeaturedShop,
 } from "@/shops/slice/shopsSlice";
+import { useShopsDeleteMutation } from "@/shops/mutations/shopsMutations";
 
 const ShopsTable = (): React.ReactElement => {
   const shops = useAppSelector((state) => state.shops.list);
+  const deleteMutation = useShopsDeleteMutation();
   const dispatch = useAppDispatch();
 
   const { filterSize } = useContext(ShopsListContext);
@@ -21,6 +23,18 @@ const ShopsTable = (): React.ReactElement => {
     const id = event.currentTarget.dataset.id!;
 
     dispatch(toggleFeaturedShop(+id));
+  };
+
+  const onDeleteShop = async (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    const id = event.currentTarget.dataset.id!;
+
+    deleteMutation.mutate(+id);
+
+    // Si dispatcheamos en el componente
+    // await deleteMutation.mutateAsync(+id);
+    // dispatch(deleteShop(+id));
   };
 
   const onIncrementEmployees = (
@@ -80,6 +94,9 @@ const ShopsTable = (): React.ReactElement => {
               <td>
                 <Button variant="outline" onClick={onFeatureShop} data-id={id}>
                   feature
+                </Button>
+                <Button variant="outline" onClick={onDeleteShop} data-id={id}>
+                  delete
                 </Button>
               </td>
             </tr>
