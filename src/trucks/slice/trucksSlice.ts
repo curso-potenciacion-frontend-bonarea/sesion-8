@@ -1,15 +1,20 @@
-import { StateCreator } from "zustand";
-import { TrucksState } from "../types";
-import { produce } from "immer";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { Truck, TrucksState } from "../types";
 
-export const createTrucksSlice: StateCreator<TrucksState> = (set) => ({
-  trucks: {
-    list: [],
-    loadTrucks: (trucks) =>
-      set(
-        produce((state: TrucksState) => {
-          state.trucks.list = trucks;
-        })
-      ),
+const initialTrucksState: TrucksState = {
+  list: [],
+};
+
+const trucksSlice = createSlice({
+  name: "trucks",
+  initialState: initialTrucksState,
+  reducers: {
+    loadTrucks: (trucksState, action: PayloadAction<Truck[]>): TrucksState => ({
+      ...trucksState,
+      list: action.payload,
+    }),
   },
 });
+
+export const { loadTrucks } = trucksSlice.actions;
+export const trucksReducer = trucksSlice.reducer;

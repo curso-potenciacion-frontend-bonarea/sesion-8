@@ -4,8 +4,5 @@ export type Truck = {
 };
 
 export type TrucksState = {
-  trucks: {
-    list: Truck[];
-    loadTrucks: (trucks: Truck[]) => void;
-  };
+  list: Truck[];
 };

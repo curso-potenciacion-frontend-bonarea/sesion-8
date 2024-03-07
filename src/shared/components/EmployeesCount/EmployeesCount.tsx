@@ -1,8 +1,8 @@
 import { useMemo } from "react";
-import { useAppStore } from "@/store";
+import { useAppSelector } from "@/store/hooks";
 
 const EmployeesCount = (): React.ReactElement => {
-  const shops = useAppStore((state) => state.shops.list);
+  const shops = useAppSelector((state) => state.shops.list);
 
   const total = useMemo(
     () =>

@@ -10,12 +10,6 @@ export type Shop = {
 };
 
 export type ShopsState = {
-  shops: {
-    list: Shop[];
-    featured: Shop[];
-    loadShops: (shops: Shop[]) => void;
-    featureShop: (shopId: Shop["id"]) => void;
-    incrementEmployees: (shopId: Shop["id"]) => void;
-    decrementEmployees: (shopId: Shop["id"]) => void;
-  };
+  list: Shop[];
+  featured: Shop[];
 };

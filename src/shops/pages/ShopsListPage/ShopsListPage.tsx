@@ -5,19 +5,20 @@ import ShopsPagination from "@/shops/components/ShopsPagination";
 import ShopsTable from "@/shops/components/ShopsTable";
 import { ShopsListContext } from "@/shops/context/ShopsListContext";
 import { useShopsQuery } from "@/shops/queries/useShopsQuery";
-import { useAppStore } from "@/store";
+import { loadShops } from "@/shops/slice/shopsSlice";
+import { useAppDispatch } from "@/store/hooks";
 import { useContext, useEffect } from "react";
 
 const ShopsListPage = (): React.ReactElement => {
-  const loadShops = useAppStore((state) => state.shops.loadShops);
+  const dispatch = useAppDispatch();
   const { page } = useContext(ShopsListContext);
   const { data, isSuccess } = useShopsQuery(page);
 
   useEffect(() => {
     if (isSuccess) {
-      loadShops(data.shops);
+      dispatch(loadShops(data.shops));
     }
-  }, [data?.shops, loadShops, isSuccess]);
+  }, [data?.shops, dispatch, isSuccess]);
 
   return (
     <>

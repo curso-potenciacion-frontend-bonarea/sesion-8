@@ -1,59 +1,67 @@
-import { StateCreator } from "zustand";
-import { produce } from "immer";
 import { ShopsState } from "../types";
 
-export const createShopsSlice: StateCreator<ShopsState> = (set) => ({
-  shops: {
-    list: [],
-    featured: [],
-    loadShops: (shops) =>
-      set(
-        produce((state: ShopsState) => {
-          state.shops.list = shops;
-        })
-      ),
-    featureShop: (shopId) =>
-      set(
-        produce((state: ShopsState) => {
-          if (state.shops.featured.some((shop) => shop.id === shopId)) {
-            state.shops.featured = state.shops.featured.filter(
-              (shop) => shop.id !== shopId
-            );
-            return;
-          }
+import { Shop } from "@/shops/types";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-          const shop = state.shops.list.find((shop) => shop.id === shopId);
+const initialShopsState: ShopsState = {
+  list: [],
+  featured: [],
+};
 
-          if (!shop) {
-            return;
-          }
+const shopsSlice = createSlice({
+  name: "shops",
+  initialState: initialShopsState,
+  reducers: {
+    loadShops: (shopsState, action: PayloadAction<Shop[]>): ShopsState => ({
+      ...shopsState,
+      list: action.payload,
+    }),
+    toggleFeaturedShop: (
+      shopsState,
+      action: PayloadAction<Shop["id"]>
+    ): ShopsState => {
+      const id = action.payload;
+      const featured = shopsState.featured;
+      const isFeatured = featured.some((shop) => shop.id === id);
+      const featuredWithoutThis = featured.filter((shop) => shop.id !== id);
+      const thisShop = shopsState.list.find((shop) => shop.id === id);
 
-          state.shops.featured.push(shop);
-        })
-      ),
-    incrementEmployees: (shopId) =>
-      set(
-        produce((state: ShopsState) => {
-          const shop = state.shops.list.find((shop) => shop.id === shopId);
+      const newShopsState: ShopsState = {
+        ...shopsState,
+        featured: isFeatured
+          ? featuredWithoutThis
+          : thisShop
+          ? [...featured, thisShop]
+          : featured,
+      };
 
-          if (!shop) {
-            return;
-          }
+      return newShopsState;
+    },
+    incrementShopEmployees: (
+      shopsState,
+      action: PayloadAction<Shop["id"]>
+    ): ShopsState => ({
+      ...shopsState,
+      list: shopsState.list.map((shop) => ({
+        ...shop,
+        employees:
+          shop.id === action.payload ? shop.employees + 1 : shop.employees,
+      })),
+    }),
+    decrementShopEmployees: (shopsState, action: PayloadAction<Shop["id"]>) => {
+      const shopToDecrement = shopsState.list.find(
+        (shop) => shop.id === action.payload
+      )!;
 
-          shop.employees++;
-        })
-      ),
-    decrementEmployees: (shopId) =>
-      set(
-        produce((state: ShopsState) => {
-          const shop = state.shops.list.find((shop) => shop.id === shopId);
-
-          if (!shop) {
-            return;
-          }
-
-          shop.employees--;
-        })
-      ),
+      shopToDecrement.employees--;
+    },
   },
 });
+
+export const {
+  loadShops,
+  toggleFeaturedShop,
+  incrementShopEmployees,
+  decrementShopEmployees,
+} = shopsSlice.actions;
+export const shopsReducer = shopsSlice.reducer;

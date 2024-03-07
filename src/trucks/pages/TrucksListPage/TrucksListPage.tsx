@@ -1,19 +1,20 @@
 import Heading from "@/shared/components/Heading";
 import Loading from "@/shared/components/Loading";
-import { useAppStore } from "@/store";
+import { useAppDispatch } from "@/store/hooks";
 import TrucksList from "@/trucks/components/TrucksList";
 import { useTrucksQuery } from "@/trucks/queries/useTrucksQuery";
+import { loadTrucks } from "@/trucks/slice/trucksSlice";
 import { useEffect } from "react";
 
 const TrucksListPage = (): React.ReactElement => {
-  const loadTrucks = useAppStore((state) => state.trucks.loadTrucks);
+  const dispatch = useAppDispatch();
   const { data, isLoading, isSuccess, isError } = useTrucksQuery();
 
   useEffect(() => {
     if (isSuccess) {
-      loadTrucks(data.trucks);
+      dispatch(loadTrucks(data.trucks));
     }
-  }, [data?.trucks, isSuccess, loadTrucks]);
+  }, [data?.trucks, dispatch, isSuccess]);
 
   if (isLoading) {
     return <Loading />;

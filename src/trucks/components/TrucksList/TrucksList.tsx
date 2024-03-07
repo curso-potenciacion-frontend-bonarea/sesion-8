@@ -1,7 +1,7 @@
-import { useAppStore } from "@/store";
+import { useAppSelector } from "@/store/hooks";
 
 const TrucksList = (): React.ReactElement => {
-  const trucks = useAppStore((state) => state.trucks.list);
+  const trucks = useAppSelector((state) => state.trucks.list);
 
   return (
     <ul className="trucks">
